@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<!-- If your plugin defines device types, you can define them here.
+
+	 Devices must specify their type (via the type attribute):
+
+		relay (ON/OFF/STATUS)
+		dimmer (ON/OFF/DIM/BRIGHTEN/SET BRIGHTNESS/STATUS)
+		speedcontrol (ON/OFF/SET SPEED LEVEL/SET SPEED INDEX/INCREASE/DECREASE/STATUS)
+		sensor (ON/OFF/STATUS)
+		thermostat
+		sprinkler
+		custom
+
+	 The first six inherit states, actions and events from Indigo. You can
+	 also specify your own custom actions and additional states, if needed.
+
+	 The two Device examples below specify the relay and dimmer types.
+	 
+	 Devices must also specify a unique typeID - so, for instance, if you define
+	 2 relay type devices then your plugin can distinguish between the two by
+	 the typeID.
+-->
+
+<Devices>
+	<!-- This device illustrates how a plugin can inherit Indigo's relay
+	device behavior including on/off states, relay actions (on/off/toggle),
+	and will support Indigo and Indigo Touch's native UI for relay type
+	devices.
+	-->
+	<DeviceFactory>
+		<Name>Define Device Group...</Name>
+		<ButtonTitle>Close</ButtonTitle>
+		<ConfigUI>
+			<Field type="list" id="deviceGroupList">
+				<Label>Device group:</Label>
+				<List class="self" method="_getDeviceGroupList" dynamicReload="true" />
+			</Field>
+
+			<Field type="separator" id="simpleSeparator1" />
+
+			<Field type="button" id="addRelayDevice">
+				<Title>Add Plugin Relay</Title>
+				<CallbackMethod>_addRelay</CallbackMethod>
+			</Field>
+			<!-- 
+			<Field type="button" id="addDimmerDevice">
+				<Title>Add Plugin Dimmer</Title>
+				<CallbackMethod>_addDimmer</CallbackMethod>
+			</Field>
+			<Field type="button" id="addX10MotionSensorDevice">
+				<Title>Add X10 Motion Sensor</Title>
+				<CallbackMethod>_addX10MotionSensor</CallbackMethod>
+			</Field>
+			<Field type="button" id="addX10SprinklerDevice">
+				<Title>Add X10 Sprinkler</Title>
+				<CallbackMethod>_addX10SprinklerDevice</CallbackMethod>
+			</Field>
+-->
+
+			<Field type="separator" id="simpleSeparator2" />
+
+			<Field type="button" id="removeRelayDevices">
+				<Title>Remove All Relay Devices</Title>
+				<CallbackMethod>_removeRelayDevices</CallbackMethod>
+			</Field>
+			<!--
+			<Field type="button" id="removeDimmerDevices">
+				<Title>Remove All Dimmer Devices</Title>
+				<CallbackMethod>_removeDimmerDevices</CallbackMethod>
+			</Field>
+			<Field type="button" id="removeAllDevices">
+				<Title>Remove All Devices</Title>
+				<CallbackMethod>_removeAllDevices</CallbackMethod>
+			</Field>
+			-->
+
+		</ConfigUI>
+	</DeviceFactory>
+	<Device type="relay" id="myRelayType">
+		<Name>Relay</Name>
+		<ConfigUI>
+			<!-- The ConfigUI here is just an example of the type of device
+			specific UI that might be needed. Here you might specify a text
+			field for an IP address, a serial port popup, or other device
+			specific options.
+			-->
+			<Field id="address" type="textfield" defaultValue="192.168.2.2">
+				<Label>Module Address:</Label>
+			</Field>
+		</ConfigUI>
+		<States>
+			<!-- By default relay type devices automatically inherit the
+			state: onOffState.
+	
+			The plugin can specify additional custom states and custom
+			actions (in Actions.xml) to modify custom states. As an example
+			here, we define a new custom state, backlightBrightness, which
+			is used to control the brightness of the backlit display of
+			the module.
+			-->
+			<State id="programNumber">
+				<ValueType>Integer</ValueType>
+				<TriggerLabel>Program</TriggerLabel>
+				<ControlPageLabel>Program</ControlPageLabel>
+			</State>
+			<State id="speed">
+				<ValueType>Integer</ValueType>
+				<TriggerLabel>Speed</TriggerLabel>
+				<ControlPageLabel>Speed</ControlPageLabel>
+			</State>
+
+		</States>
+	</Device>
+
+</Devices>
