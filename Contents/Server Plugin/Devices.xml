@@ -22,62 +22,8 @@
 -->
 
 <Devices>
-	<!-- This device illustrates how a plugin can inherit Indigo's relay
-	device behavior including on/off states, relay actions (on/off/toggle),
-	and will support Indigo and Indigo Touch's native UI for relay type
-	devices.
-	-->
-	<DeviceFactory>
-		<Name>Define Device Group...</Name>
-		<ButtonTitle>Close</ButtonTitle>
-		<ConfigUI>
-			<Field type="list" id="deviceGroupList">
-				<Label>Device group:</Label>
-				<List class="self" method="_getDeviceGroupList" dynamicReload="true" />
-			</Field>
-
-			<Field type="separator" id="simpleSeparator1" />
-
-			<Field type="button" id="addRelayDevice">
-				<Title>Add Plugin Relay</Title>
-				<CallbackMethod>_addRelay</CallbackMethod>
-			</Field>
-			<!-- 
-			<Field type="button" id="addDimmerDevice">
-				<Title>Add Plugin Dimmer</Title>
-				<CallbackMethod>_addDimmer</CallbackMethod>
-			</Field>
-			<Field type="button" id="addX10MotionSensorDevice">
-				<Title>Add X10 Motion Sensor</Title>
-				<CallbackMethod>_addX10MotionSensor</CallbackMethod>
-			</Field>
-			<Field type="button" id="addX10SprinklerDevice">
-				<Title>Add X10 Sprinkler</Title>
-				<CallbackMethod>_addX10SprinklerDevice</CallbackMethod>
-			</Field>
--->
-
-			<Field type="separator" id="simpleSeparator2" />
-
-			<Field type="button" id="removeRelayDevices">
-				<Title>Remove All Relay Devices</Title>
-				<CallbackMethod>_removeRelayDevices</CallbackMethod>
-			</Field>
-			<!--
-			<Field type="button" id="removeDimmerDevices">
-				<Title>Remove All Dimmer Devices</Title>
-				<CallbackMethod>_removeDimmerDevices</CallbackMethod>
-			</Field>
-			<Field type="button" id="removeAllDevices">
-				<Title>Remove All Devices</Title>
-				<CallbackMethod>_removeAllDevices</CallbackMethod>
-			</Field>
-			-->
-
-		</ConfigUI>
-	</DeviceFactory>
-	<Device type="relay" id="myRelayType">
-		<Name>Relay</Name>
+	<Device type="dimmer" id="myRelayType">
+		<Name>WF-300 LED Controller</Name>
 		<ConfigUI>
 			<!-- The ConfigUI here is just an example of the type of device
 			specific UI that might be needed. Here you might specify a text

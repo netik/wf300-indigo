@@ -9,12 +9,30 @@
 	 backlightBrightness state added to Devices.xml.
 -->
 <Actions>
-	<Action id="setBacklightBrightness" deviceFilter="self">
-		<Name>Set Backlight Brightness</Name>
-		<CallbackMethod>setBacklightBrightness</CallbackMethod>
+	<Action id="setProgramNumber" deviceFilter="self">
+		<Name>Set Program Number</Name>
+		<CallbackMethod>setProgramNumber</CallbackMethod>
 		<ConfigUI>
-			<Field id="brightness" type="textfield" defaultValue="80">
-				<Label>Backlight Brightness:</Label>
+			<Field id="programNumber" type="textfield" defaultValue="80">
+				<Label>Program Number:</Label>
+			</Field>
+		</ConfigUI>
+	</Action>
+	<Action id="setSpeed" deviceFilter="self">
+		<Name>Set Speed</Name>
+		<CallbackMethod>setSpeed</CallbackMethod>
+		<ConfigUI>
+			<Field id="speed" type="textfield" defaultValue="50">
+				<Label>Speed:</Label>
+			</Field>
+		</ConfigUI>
+	</Action>
+	<Action id="pauseRun" deviceFilter="self">
+		<Name>Pause</Name>
+		<CallbackMethod>setPause</CallbackMethod>
+		<ConfigUI>
+			<Field id="speed" type="checkbox" defaultValue="false">
+				<Label>Pause:</Label>
 			</Field>
 		</ConfigUI>
 	</Action>
