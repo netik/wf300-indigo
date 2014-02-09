@@ -52,7 +52,7 @@ class Plugin(indigo.PluginBase):
     if action.deviceAction == indigo.kDimmerRelayAction.TurnOn:
       # Command hardware module (dev) to turn ON here:
       p.keyNum=p.MODE_ON
-      p.keyValue=7  # default to white
+      p.keyValue=p.findProgram("WHITE")
       m.sendMsg(p)
       sendSuccess = True    # Set to False if it failed.
 
@@ -87,6 +87,14 @@ class Plugin(indigo.PluginBase):
     elif action.deviceAction == indigo.kDimmerRelayAction.Toggle:
       # Command hardware module (dev) to toggle here:
       newOnState = not dev.onState
+      
+      if newOnState == False:
+        p.keyNum=p.MODE_OFF
+      else:
+        p.keyNum=p.MODE_ON
+        p.keyValue=p.findProgram("WHITE")
+      m.sendMsg(p)
+
       sendSuccess = True    # Set to False if it failed.
 
       if sendSuccess:
