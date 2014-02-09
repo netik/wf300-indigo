@@ -22,6 +22,12 @@
 				<ControlPageLabel>Speed</ControlPageLabel>
 			</State>
 
+			<State id="pauseRun">
+				<ValueType>Boolean</ValueType>
+				<TriggerLabel>Pause</TriggerLabel>
+				<ControlPageLabel>Pause</ControlPageLabel>
+			</State>
+
 		</States>
 	</Device>
 

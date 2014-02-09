@@ -51,8 +51,8 @@ class Plugin(indigo.PluginBase):
     ###### TURN ON ######
     if action.deviceAction == indigo.kDimmerRelayAction.TurnOn:
       # Command hardware module (dev) to turn ON here:
-      # ** IMPLEMENT ME **
       p.keyNum=p.MODE_ON
+      p.keyValue=7  # default to white
       m.sendMsg(p)
       sendSuccess = True    # Set to False if it failed.
 
@@ -69,7 +69,6 @@ class Plugin(indigo.PluginBase):
     ###### TURN OFF ######
     elif action.deviceAction == indigo.kDimmerRelayAction.TurnOff:
       # Command hardware module (dev) to turn OFF here:
-      # ** IMPLEMENT ME **
       p.keyNum=p.MODE_OFF
       m.sendMsg(p)
       sendSuccess = True    # Set to False if it failed.
@@ -87,7 +86,6 @@ class Plugin(indigo.PluginBase):
     ###### TOGGLE ######
     elif action.deviceAction == indigo.kDimmerRelayAction.Toggle:
       # Command hardware module (dev) to toggle here:
-      # ** IMPLEMENT ME **
       newOnState = not dev.onState
       sendSuccess = True    # Set to False if it failed.
 
@@ -149,7 +147,6 @@ class Plugin(indigo.PluginBase):
     ###### DIM BY ######
     elif action.deviceAction == indigo.kDimmerRelayAction.DimBy:
       # Command hardware module (dev) to do a relative dim here:
-      # ** IMPLEMENT ME **
       newBrightness = dev.brightness - action.actionValue
       if newBrightness < 0:
         newBrightness = 0
@@ -197,24 +194,83 @@ class Plugin(indigo.PluginBase):
   ########################################
   # Custom Plugin Action callbacks (defined in Actions.xml)
   ######################
-  def setBacklightBrightness(self, pluginAction, dev):
+  def setProgramNumber(self, pluginAction, dev):
     try:
-      newBrightness = int(pluginAction.props.get(u"brightness", 100))
+      newValue = int(pluginAction.props.get(u"programNumber", 100))
     except ValueError:
       # The int() cast above might fail if the user didn't enter a number:
-      indigo.server.log(u"set backlight brightness action to device \"%s\" -- invalid brightness value" % (dev.name,), isError=True)
+      indigo.server.log(u"set program Number to device \"%s\" -- invalid value" % (dev.name), isError=True)
       return
 
-    # Command hardware module (dev) to set backlight brightness here:
-    # ** IMPLEMENT ME **
+    m = Magiccolor()
+    m.connect()
+    p = Protocol()
+    p.keyNum=p.MODE_ON
+    p.keyValue=newValue
+    m.sendMsg(p)
     sendSuccess = True    # Set to False if it failed.
 
     if sendSuccess:
       # If success then log that the command was successfully sent.
-      indigo.server.log(u"sent \"%s\" %s to %d" % (dev.name, "set backlight brightness", newBrightness))
+      indigo.server.log(u"sent \"%s\" %s to %d" % (dev.name, "set program number", newValue))
 
       # And then tell the Indigo Server to update the state:
-      dev.updateStateOnServer("backlightBrightness", newBrightness)
+      dev.updateStateOnServer("programNumber", newValue)
     else:
       # Else log failure but do NOT update state on Indigo Server.
-      indigo.server.log(u"send \"%s\" %s to %d failed" % (dev.name, "set backlight brightness", newBrightness), isError=True)
+      indigo.server.log(u"send \"%s\" %s to %d failed" % (dev.name, "set program number", newValue), isError=True)
+
+  def setSpeed(self, pluginAction, dev):
+    try:
+      newValue = int(pluginAction.props.get(u"speed", 100))
+    except ValueError:
+      # The int() cast above might fail if the user didn't enter a number:
+      indigo.server.log(u"set speed to device \"%s\" -- invalid value" % (dev.name), isError=True)
+      return
+
+    m = Magiccolor()
+    m.connect()
+    p = Protocol()
+    p.keyNum=p.MODE_SPEED
+    p.keyValue=newValue
+    m.sendMsg(p)
+
+    sendSuccess = True    # Set to False if it failed.
+
+    if sendSuccess:
+      # If success then log that the command was successfully sent.
+      indigo.server.log(u"sent \"%s\" %s to %d" % (dev.name, "set speed", newValue))
+
+      # And then tell the Indigo Server to update the state:
+      dev.updateStateOnServer("programNumber", newValue)
+    else:
+      # Else log failure but do NOT update state on Indigo Server.
+      indigo.server.log(u"send \"%s\" %s to %d failed" % (dev.name, "set speed", newValue), isError=True)
+
+  def setPause(self, pluginAction, dev):
+    newValue = pluginAction.props.get(u"pauseRun", False)
+
+    m = Magiccolor()
+    m.connect()
+    p = Protocol()
+    p.keyNum=p.MODE_PAUSE
+
+    indigo.server.log("%d" % newValue)
+
+    if newValue:
+      p.keyValue=1
+    else:
+      p.keyValue=0
+
+    m.sendMsg(p)
+    sendSuccess = True    # Set to False if it failed.
+
+    if sendSuccess:
+      # If success then log that the command was successfully sent.
+      indigo.server.log(u"sent \"%s\" %s to %d" % (dev.name, "pause", newValue))
+
+      # And then tell the Indigo Server to update the state:
+      dev.updateStateOnServer("pauseRun", newValue)
+    else:
+      # Else log failure but do NOT update state on Indigo Server.
+      indigo.server.log(u"send \"%s\" %s to %d failed" % (dev.name, "set pause", newValue), isError=True)

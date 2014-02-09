@@ -31,7 +31,7 @@
 		<Name>Pause</Name>
 		<CallbackMethod>setPause</CallbackMethod>
 		<ConfigUI>
-			<Field id="speed" type="checkbox" defaultValue="false">
+			<Field id="pauseRun" type="checkbox" defaultValue="false">
 				<Label>Pause:</Label>
 			</Field>
 		</ConfigUI>
